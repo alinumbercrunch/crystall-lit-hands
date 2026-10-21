@@ -5,3 +5,4 @@ blog/
 .env
 .mcp.json
 .wrangler
+vite.config.js.timestamp-*
