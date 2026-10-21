@@ -18,8 +18,8 @@
 - **Cloudflare Access** guards `/admin/*` and `/cms/*` on `ayakahaku.com`. Only listed emails get in; nothing else is reachable without it.
 - **Worker** on `ayakahaku.com/cms/*` (same origin, so no CORS):
   - `/cms/auth` — answers the CMS sign-in popup with a placeholder token (the Netlify-style `postMessage` handshake), sent only to `https://ayakahaku.com`.
-  - `/cms/api/*` — forwards to `api.github.com` with the real token, which is held as a Worker secret.
-- **CMS config** — `api_root` points at `/cms/api`, `base_url` at the Worker, and `auth_methods: [oauth]`.
+  - `/cms/api/v3/*` and `/cms/api/graphql` — forward to `api.github.com` with the real token, which is held as a Worker secret.
+- **CMS config** — `api_root` points at `/cms/api/v3` (the CMS appends `/api/v3` to any other root and derives GraphQL from it), `base_url` at the Worker, and `auth_methods: [oauth]`.
 
 **Security requirements**
 
@@ -42,4 +42,4 @@
 
 **Tests (`worker/*.test.js`)** — JWT: valid, wrong audience, expired, bad signature, missing. Paths: each allowed path, traversal (`..`, encoded), other repos, other users. Methods and `Origin`. Handshake: target origin, message format.
 
-**Done when** — a listed Google account can open `/admin/`, edit salon info and save, and the change deploys; an unlisted account, a direct request to `/cms/api` without Access, and a request for another repo are all refused.
+**Done when** — a listed Google account can open `/admin/`, edit salon info and save, and the change deploys; an unlisted account, a direct request to `/cms/api/v3` without Access, and a request for another repo are all refused.

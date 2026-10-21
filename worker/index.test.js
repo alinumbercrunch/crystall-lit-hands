@@ -106,21 +106,21 @@ test("handler: fails closed when not configured or malformed", async () => {
   const jwt = await sign(goodClaims());
   const bad = [...Object.keys(ENV).map((k) => ({ [k]: "" })), { TEAM_DOMAIN: "haku" }, { TEAM_DOMAIN: "haku.cloudflareaccess.com.evil.example" }];
   for (const patch of bad) {
-    const res = await handle(await req("/cms/api/user", { jwt }), { ...ENV, ...patch }, stubFetch().fn);
+    const res = await handle(await req("/cms/api/v3/user", { jwt }), { ...ENV, ...patch }, stubFetch().fn);
     assert.equal(res.status, 503, JSON.stringify(patch));
   }
 });
 
 test("handler: no or bad Access token → 403, GitHub never called", async () => {
   const { fn, calls } = stubFetch();
-  assert.equal((await handle(await req("/cms/api/user"), ENV, fn)).status, 403);
-  assert.equal((await handle(await req("/cms/api/user", { jwt: "x.y.z" }), ENV, fn)).status, 403);
+  assert.equal((await handle(await req("/cms/api/v3/user"), ENV, fn)).status, 403);
+  assert.equal((await handle(await req("/cms/api/v3/user", { jwt: "x.y.z" }), ENV, fn)).status, 403);
   assert.equal(calls.length, 0);
 });
 
 test("handler: forwards with the secret token only, filters headers", async () => {
   const { fn, calls } = stubFetch();
-  const res = await handle(await req(`/cms/api/repos/${REPO}/contents/x?ref=main`, { jwt: await sign(goodClaims()), auth: "token cloudflare-access" }), ENV, fn);
+  const res = await handle(await req(`/cms/api/v3/repos/${REPO}/contents/x?ref=main`, { jwt: await sign(goodClaims()), auth: "token cloudflare-access" }), ENV, fn);
   assert.equal(res.status, 200);
   assert.equal(calls[0].url, `https://api.github.com/repos/${REPO}/contents/x?ref=main`);
   assert.equal(calls[0].init.headers.get("authorization"), "Bearer ghp_secret");
@@ -142,7 +142,7 @@ test("handler: writes need the site Origin (CSRF)", async () => {
 test("handler: disallowed paths → 404", async () => {
   const { fn, calls } = stubFetch();
   const jwt = await sign(goodClaims());
-  for (const p of ["/cms/api/repos/someone/else", "/cms/api/user/emails", "/cms/other", "/cms/apix/user"])
+  for (const p of ["/cms/api/v3/repos/someone/else", "/cms/api/v3/user/emails", "/cms/api/user", "/cms/api/v3", "/cms/other", "/cms/apix/user"])
     assert.equal((await handle(await req(p, { jwt }), ENV, fn)).status, 404, p);
   assert.equal(calls.length, 0);
 });
@@ -194,11 +194,33 @@ test("auth popup: config values cannot break out of the script", async () => {
   assert.equal(html.match(/<\/script>/g).length, 1);
 });
 
+const CMS = parseYaml(fs.readFileSync(new URL("../public/admin/config.yml", import.meta.url), "utf8")).backend;
+
 test("config: Worker REPO and SITE_ORIGIN match the CMS config", () => {
-  const cms = parseYaml(fs.readFileSync(new URL("../public/admin/config.yml", import.meta.url), "utf8"));
   const toml = fs.readFileSync(new URL("./wrangler.toml", import.meta.url), "utf8");
   const v = (k) => toml.match(new RegExp(`^${k} = "(.*)"$`, "m"))?.[1];
-  assert.equal(v("REPO"), cms.backend.repo);
-  assert.equal(new URL(cms.backend.api_root).origin, v("SITE_ORIGIN"));
-  assert.equal(cms.backend.base_url, v("SITE_ORIGIN"));
+  assert.equal(v("REPO"), CMS.repo);
+  assert.equal(new URL(CMS.api_root).origin, v("SITE_ORIGIN"));
+  assert.equal(CMS.base_url, v("SITE_ORIGIN"));
+});
+
+// Sveltia CMS 0.224.0 (GitHub backend): a REST root not ending in /api/v3 gets /api/v3
+// appended; GraphQL defaults to that root with /v3 → /graphql; sign-in opens
+// `${base_url}/${auth_endpoint}?provider=github…`. Every URL it builds must reach the Worker.
+test("config: the URLs the CMS builds are the ones the Worker serves", async () => {
+  assert.ok(CMS.api_root.endsWith("/api/v3"), "api_root must end in /api/v3 or the CMS rewrites it");
+  assert.equal(CMS.graphql_api_root, undefined, "let the CMS derive GraphQL from api_root");
+  const rest = CMS.api_root;
+  const graphql = rest.replace(/\/v3$/, "/graphql");
+  const auth = `${CMS.base_url}/${CMS.auth_endpoint}?provider=github&site_id=ayakahaku.com&scope=repo%2Cuser`;
+  const jwt = await sign(goodClaims());
+  const { fn } = stubFetch();
+  const call = async (url, method = "GET") => {
+    const headers = new Headers({ "cf-access-jwt-assertion": jwt, origin: SITE });
+    return (await handle(new Request(url, { method, headers, body: method === "GET" ? undefined : "{}" }), ENV, fn)).status;
+  };
+  assert.equal(await call(`${rest}/user`), 200);
+  assert.equal(await call(`${rest}/repos/${CMS.repo}/git/trees/main?recursive=1`), 200);
+  assert.equal(await call(graphql, "POST"), 200);
+  assert.equal(await call(auth), 200);
 });

@@ -1,11 +1,14 @@
 // CMS gateway on ayakahaku.com/cms/* (see REQUIREMENTS.md). Cloudflare Access signs
 // editors in; this Worker re-checks that, answers the CMS sign-in popup, and forwards
 // allowlisted GitHub API calls with a token the browser never sees.
-//   /cms/auth     → sign-in popup (Netlify-style postMessage handshake)
-//   /cms/api/...  → https://api.github.com/...
+//   /cms/auth         → sign-in popup (Netlify-style postMessage handshake)
+//   /cms/api/v3/...   → https://api.github.com/...   (CMS api_root, GitHub Enterprise layout)
+//   /cms/api/graphql  → https://api.github.com/graphql
 // env: SITE_ORIGIN, REPO, TEAM_DOMAIN, ACCESS_AUD (wrangler.toml); GITHUB_TOKEN (secret).
 
 const GITHUB = "https://api.github.com";
+const REST_ROOT = "/cms/api/v3";
+const GRAPHQL_PATH = "/cms/api/graphql";
 const PROVIDER = "github";
 // Not a secret: the CMS needs some token to send; the Worker drops it (S3).
 const PLACEHOLDER_TOKEN = "cloudflare-access";
@@ -65,7 +68,7 @@ export async function verifyAccessJwt(token, { teamDomain, aud, fetchFn = fetch,
 
 // --- GitHub API allowlist (S2) --------------------------------------------
 
-// `path` is everything after /cms/api, still percent-encoded. The URL parser already
+// `path` is the GitHub API path (after REST_ROOT, or /graphql), still percent-encoded. The URL parser already
 // resolves ../ and %2e%2e/; this also rejects them (and encoded or doubled separators)
 // in case it is called on a raw path. File names such as notes..md stay allowed.
 export function isAllowed(method, path, repo) {
@@ -139,7 +142,8 @@ export async function handle(request, env, fetchFn = fetch) {
     if (request.method !== "GET" || searchParams.get("provider") !== PROVIDER) return json(400, "bad request");
     return authPage(env.SITE_ORIGIN, crypto.randomUUID());
   }
-  if (pathname.startsWith("/cms/api/")) return proxy(request, env, pathname.slice("/cms/api".length), fetchFn);
+  if (pathname === GRAPHQL_PATH) return proxy(request, env, "/graphql", fetchFn);
+  if (pathname.startsWith(`${REST_ROOT}/`)) return proxy(request, env, pathname.slice(REST_ROOT.length), fetchFn);
   return json(404, "not found");
 }
 

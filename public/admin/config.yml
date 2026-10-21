@@ -12,8 +12,8 @@ backend:
   base_url: https://ayakahaku.com
   auth_endpoint: cms/auth
   auth_methods: [oauth]
-  api_root: https://ayakahaku.com/cms/api
-  graphql_api_root: https://ayakahaku.com/cms/api/graphql
+  # The CMS adds /api/v3 to any root not ending in it, and derives GraphQL as …/api/graphql.
+  api_root: https://ayakahaku.com/cms/api/v3
   commit_messages:
     create: "Blog: add {{slug}}"
     update: "Content: update {{slug}}"
