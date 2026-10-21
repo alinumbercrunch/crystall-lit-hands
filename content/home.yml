@@ -123,8 +123,8 @@ closing:
       “Rest is not a reward.
       It is where you begin.”
 footer:
-  ja: HAKUはデザインプロトタイプ用の架空のサロンです · [プライバシーポリシー](./privacy/) · [LUMEN](./light.html) · [CRYSTALL](./crystall.html)
-  en: HAKU is a fictional salon for a design prototype · [Privacy](./privacy/) · [LUMEN](./light.html) · [CRYSTALL](./crystall.html)
+  ja: HAKUはデザインプロトタイプ用の架空のサロンです · [プライバシーポリシー](./privacy/)
+  en: HAKU is a fictional salon for a design prototype · [Privacy](./privacy/)
 blog:
   title:
     ja: ジャーナル — HAKU

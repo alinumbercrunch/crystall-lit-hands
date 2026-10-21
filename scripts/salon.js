@@ -36,7 +36,7 @@ function social(v) {
     const link = url(v?.[key], `${label} link`);
     if (!link) return [];
     if (!hosts.includes(new URL(link).hostname)) throw new Error(`${NAME}: ${label} link must be on ${hosts[0]}, got "${link}"`);
-    return [{ label, url: link }];
+    return [{ key, label, url: link }];
   });
 }
 
@@ -103,8 +103,9 @@ const BLOCKS = {
   }).join("\n"),
   "booking-notes": (d) => d.notes.map((t) => el("p", "note", t)).join("\n"),
   // On every page (index.html and scripts/blog.js), just above the footer.
+  // Icons are icons/<key>.svg, drawn as a CSS mask in the link colour (styles.css).
   social: (d) => (d.social.length
-    ? `<nav class="social" aria-label="Social">${d.social.map((s) => `<a href="${esc(s.url)}" target="_blank" rel="noopener me">${s.label}</a>`).join("")}</nav>`
+    ? `<nav class="social" aria-label="Social">${d.social.map((s) => `<a class="social-link social-link--${s.key}" href="${esc(s.url)}" target="_blank" rel="noopener me" aria-label="${s.label}" title="${s.label}"></a>`).join("")}</nav>`
     : ""),
 };
 

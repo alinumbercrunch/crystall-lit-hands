@@ -1,5 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import fs from "node:fs";
 import { embedUrl, fmtMeta, loadSalon, parseSalon, renderSalon } from "./salon.js";
 
 const SESSION = "sessions:\n  - name: { ja: レイキ, en: Reiki }\n    minutes: 60\n    price: 9800\n";
@@ -27,8 +28,15 @@ test("social links: https on the right host only; empty hides the nav", () => {
   const nav = (social) => renderSalon("<!-- salon:social -->", parseSalon(`${SESSION}social: ${JSON.stringify(social)}\n`));
   assert.equal(nav({ instagram: "", threads: "" }), "");
   assert.equal(renderSalon("<!-- salon:social -->", parseSalon(SESSION)), "");
-  assert.match(nav({ instagram: "https://www.instagram.com/haku/" }), /<a href="https:\/\/www\.instagram\.com\/haku\/" target="_blank" rel="noopener me">Instagram<\/a>/);
-  assert.match(nav({ threads: "https://www.threads.com/@haku" }), /Threads<\/a><\/nav>$/);
+  assert.match(nav({ instagram: "https://www.instagram.com/haku/" }),
+    /<a class="social-link social-link--instagram" href="https:\/\/www\.instagram\.com\/haku\/" target="_blank" rel="noopener me" aria-label="Instagram" title="Instagram"><\/a>/);
+  assert.match(nav({ threads: "https://www.threads.com/@haku" }), /social-link--threads[^>]*aria-label="Threads"[^>]*><\/a><\/nav>$/);
+  // Every icon class has its SVG and a CSS rule.
+  const css = fs.readFileSync(new URL("../styles.css", import.meta.url), "utf8");
+  for (const key of ["instagram", "threads"]) {
+    assert.ok(fs.existsSync(new URL(`../icons/${key}.svg`, import.meta.url)), `icons/${key}.svg`);
+    assert.ok(css.includes(`.social-link--${key} { --icon: url("./icons/${key}.svg"); }`), `css for ${key}`);
+  }
   assert.throws(() => nav({ instagram: "https://evil.example/instagram.com" }), /Instagram link must be on instagram\.com/);
   assert.throws(() => nav({ instagram: "https://instagram.com.evil.example/" }), /Instagram link must be on/);
   assert.throws(() => nav({ threads: "http://www.threads.com/@haku" }), /Threads link must be an https:\/\/ link/);
