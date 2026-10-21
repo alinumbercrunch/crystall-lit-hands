@@ -27,17 +27,21 @@ export function text(v, where, name, optional = false) {
 // must not be followed by a slash, and backslashes are refused anywhere.
 const SAFE_HREF = /^(https:\/\/|mailto:|#|\.{1,2}\/|\/(?![/\\]))[^\\]*$/;
 
-// Editor-friendly formatting → HTML. Everything is escaped first, then:
-// a new line → <br />, *words* → <em>, [label](link) → <a> (https, mailto, # or relative only).
+const LINK = /\[([^\]\n]+)\]\(([^)\s]+)\)/g;
+// Escaped text with *words* → <em> and a new line → <br />.
+const inline = (s) => esc(s).replace(/\*([^*\n]+)\*/g, "<em>$1</em>").replace(/\r?\n/g, "<br />");
+
+// Editor-friendly formatting → HTML: inline() outside links, [label](link) → <a>
+// (https, mailto, # or relative only). Link addresses are only escaped, never formatted.
 export function rich(s, where, name) {
-  return esc(s)
-    .replace(/\[([^\]\n]+)\]\(([^)\s]+)\)/g, (_, label, href) => {
-      // href was escaped above; &amp; etc. are fine inside an attribute.
-      if (!SAFE_HREF.test(href)) throw new Error(`${name}: ${where}: link "${href}" must start with https://, mailto:, # or /`);
-      return `<a href="${href}">${label}</a>`;
-    })
-    .replace(/\*([^*\n]+)\*/g, "<em>$1</em>")
-    .replace(/\r?\n/g, "<br />");
+  let html = "", last = 0;
+  for (const m of s.matchAll(LINK)) {
+    const [whole, label, href] = m;
+    if (!SAFE_HREF.test(href)) throw new Error(`${name}: ${where}: link "${href}" must start with https://, mailto:, # or /`);
+    html += `${inline(s.slice(last, m.index))}<a href="${esc(href)}">${inline(label)}</a>`;
+    last = m.index + whole.length;
+  }
+  return html + inline(s.slice(last));
 }
 
 // English text inline (the HTML default); i18n.js swaps in data-text-<lang>.

@@ -16,6 +16,7 @@
 **Design**
 
 - **Cloudflare Access** guards `/admin/*` and `/cms/*` on `ayakahaku.com`. Only listed emails get in; nothing else is reachable without it.
+  `/admin/` is only static files that are public in the repo anyway (Access there is convenience; an encoded path such as `/admin%2Fconfig.yml` skips it). All protection that matters is on `/cms/*`: Access plus the Worker's own JWT check, and encoded variants never reach the Worker.
 - **Worker** on `ayakahaku.com/cms/*` (same origin, so no CORS):
   - `/cms/auth` — answers the CMS sign-in popup with a placeholder token (the Netlify-style `postMessage` handshake), sent only to `https://ayakahaku.com`.
   - `/cms/api/v3/*` and `/cms/api/graphql` — forward to `api.github.com` with the real token, which is held as a Worker secret.

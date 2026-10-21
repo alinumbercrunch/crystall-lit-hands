@@ -26,6 +26,8 @@ test("rich text: escaped first, then *em*, line breaks and safe links", () => {
   assert.equal(rich("[Home](../) · [Mail](mailto:a@b.c) · [x](https://a.b/?q=1&r=2)", "x", "f"),
     '<a href="../">Home</a> · <a href="mailto:a@b.c">Mail</a> · <a href="https://a.b/?q=1&amp;r=2">x</a>');
   assert.equal(rich('[x](./a"onmouseover="b)', "x", "f"), '<a href="./a&quot;onmouseover=&quot;b">x</a>');
+  // Link addresses are never formatted; labels and the text around them are.
+  assert.equal(rich("[*docs*](https://ex.com/a*b*c) *and*\nmore", "x", "f"), '<a href="https://ex.com/a*b*c"><em>docs</em></a> <em>and</em><br />more');
   assert.equal(rich("[a](/blog/) [b](#menu)", "x", "f"), '<a href="/blog/">a</a> <a href="#menu">b</a>');
   for (const bad of ["javascript:alert(1)", "http://a.b", "data:text/html,x", "//evil.example", "/\\evil.example"])
     assert.throws(() => rich(`[x](${bad})`, "footer", "content/home.yml"), /content\/home\.yml: footer: link/, bad);
@@ -36,6 +38,7 @@ test("rejects empty required text and empty lists; footers may be empty", () => 
   assert.throws(() => withField("faq.items", []), /at least one item to faq\.items/);
   assert.throws(() => withField("visit.steps", [{ title: { en: "A" } }]), /visit\.steps 1 body/);
   assert.equal(withField("footer", { ja: "", en: "" }).strings.en["s.footer"], "");
+  assert.throws(() => withField("footer", { ja: "[x](//evil.example)", en: "ok" }), /footer \(ja\): link/);
   assert.throws(() => parseHome("hero: [unclosed"), /invalid YAML/);
 });
 
@@ -73,6 +76,8 @@ test("KEYS, the CMS config, the pages and i18n.js agree", () => {
   for (const [key, { rich: isRich }] of Object.entries(KEYS)) {
     const attr = key.endsWith("desc") ? "data-i18n-content" : isRich ? "data-i18n-html" : "data-i18n";
     assert.ok(pages.includes(`${attr}="${key}"`), `${key} is used as ${attr}`);
+    // Rich text may contain <a>; renderHome's fill would end an <a> element at the first </a>.
+    if (isRich) assert.ok(!new RegExp(`<a\\b[^>]*data-i18n-html="${key.replace(/\./g, "\\.")}"`).test(pages), `${key} must not sit on an <a>`);
   }
   const i18n = read("i18n.js");
   for (const key of Object.keys(KEYS)) assert.ok(!i18n.includes(`"${key}":`), `${key} must live only in content/home.yml`);

@@ -96,7 +96,7 @@ collections:
               - label: 説明 / Description
                 name: description
                 widget: object
-                fields: &para # 日本語 / English, multi-line
+                fields: &para # 日本語 / English, multi-line — reused as *para below; keep this field or move the anchor
                   - { label: 日本語, name: ja, widget: text, required: false }
                   - { label: English, name: en, widget: text, required: false }
               - label: 予約リンク / Booking link
@@ -109,7 +109,7 @@ collections:
           - label: メニューの注記 / Menu note
             name: menu_note
             widget: object
-            fields: &line # 日本語 / English, one line
+            fields: &line # 日本語 / English, one line — reused as *line below; keep this field or move the anchor
               - { label: 日本語, name: ja, widget: string, required: false }
               - { label: English, name: en, widget: string, required: false }
           - label: アクセス情報 / Access details

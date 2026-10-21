@@ -52,7 +52,7 @@ export function parseHome(src) {
   const strings = { en: {}, ja: {} };
   for (const [key, { path: p, rich: isRich, optional }] of Object.entries(KEYS)) {
     const t = text(get(data, p), p, NAME, optional) ?? { en: "", ja: "" };
-    for (const lang of ["en", "ja"]) strings[lang][key] = isRich ? rich(t[lang], p, NAME) : t[lang];
+    for (const lang of ["en", "ja"]) strings[lang][key] = isRich ? rich(t[lang], `${p} (${lang})`, NAME) : t[lang];
   }
   return {
     strings,
