@@ -23,6 +23,17 @@ test("rejects missing names, bad numbers and non-https links", () => {
   assert.throws(() => parseSalon("sessions: [unclosed"), /invalid YAML/);
 });
 
+test("social links: https on the right host only; empty hides the nav", () => {
+  const nav = (social) => renderSalon("<!-- salon:social -->", parseSalon(`${SESSION}social: ${JSON.stringify(social)}\n`));
+  assert.equal(nav({ instagram: "", threads: "" }), "");
+  assert.equal(renderSalon("<!-- salon:social -->", parseSalon(SESSION)), "");
+  assert.match(nav({ instagram: "https://www.instagram.com/haku/" }), /<a href="https:\/\/www\.instagram\.com\/haku\/" target="_blank" rel="noopener me">Instagram<\/a>/);
+  assert.match(nav({ threads: "https://www.threads.com/@haku" }), /Threads<\/a><\/nav>$/);
+  assert.throws(() => nav({ instagram: "https://evil.example/instagram.com" }), /Instagram link must be on instagram\.com/);
+  assert.throws(() => nav({ instagram: "https://instagram.com.evil.example/" }), /Instagram link must be on/);
+  assert.throws(() => nav({ threads: "http://www.threads.com/@haku" }), /Threads link must be an https:\/\/ link/);
+});
+
 test("formats duration and price per language", () => {
   assert.deepEqual(fmtMeta({ minutes: 60, price: 14000 }), { en: "60 min · ¥14,000", ja: "60分 · 14,000円" });
 });

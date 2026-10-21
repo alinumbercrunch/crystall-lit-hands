@@ -1,0 +1,36 @@
+name: Token reminder
+
+# Opens an issue (GitHub emails the owner) when the editor's GitHub token is close to
+# expiring. After renewing it (README → Maintenance), update TOKEN_EXPIRES below.
+on:
+  schedule:
+    - cron: "0 0 * * 1" # Mondays 09:00 JST
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+env:
+  TOKEN_EXPIRES: "2027-01-19" # Worker secret GITHUB_TOKEN (fine-grained, alinumbercrunch)
+  WARN_DAYS: "21"
+
+jobs:
+  remind:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Open a reminder issue if the token expires soon
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          days=$(( ( $(date -ud "$TOKEN_EXPIRES" +%s) - $(date -u +%s) ) / 86400 ))
+          echo "Token expires in $days days ($TOKEN_EXPIRES)"
+          [ "$days" -gt "$WARN_DAYS" ] && exit 0
+          title="Renew the editor's GitHub token (expires $TOKEN_EXPIRES)"
+          open=$(gh issue list -R "$GITHUB_REPOSITORY" --state open --search "\"$title\" in:title" --json number --jq length)
+          [ "$open" -gt 0 ] && { echo "Reminder already open"; exit 0; }
+          gh issue create -R "$GITHUB_REPOSITORY" --title "$title" --body "The token the /admin/ editor uses to save changes expires on **$TOKEN_EXPIRES** ($days days). After that, saving in the editor stops working (the website itself keeps running).
+
+          Renew it — steps in README → Maintenance:
+          1. As alinumbercrunch, create a new fine-grained token: this repo only, Contents: Read and write, 90 days.
+          2. Put it in \`.env\` as \`GITHUB_CMS_TOKEN\`, then upload it: \`npx wrangler@4.148.0 secret put GITHUB_TOKEN -c worker/wrangler.toml\`.
+          3. Update \`TOKEN_EXPIRES\` in \`.github/workflows/token-reminder.yml\` and close this issue."

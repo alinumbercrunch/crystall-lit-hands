@@ -94,6 +94,24 @@ Then **Share** the schedule and paste a link into the session's **予約リン�
 
 Free Google accounts take bookings and send confirmation emails; taking payment when booking needs Google Workspace, so the site says "payment at the salon".
 
+## Maintenance
+
+**Security checklist**
+
+- Two-factor login on the Cloudflare account and on both GitHub accounts (`alinumbercrunch`, `alihaddi-dotcom`).
+- Editors are the emails in the Cloudflare Access policy *Editors* (Zero Trust → Access → Applications → HAKU editor). Remove people who no longer edit.
+- Secrets live only in gitignored `.env` / `.mcp.json` and as the Worker secret; never in the repo.
+
+**Renewing the editor's GitHub token** (expires 2027-01-19; `.github/workflows/token-reminder.yml` opens an issue 3 weeks before, and GitHub also emails before a token expires). When it expires, saving in /admin/ stops; the website keeps running.
+
+1. As `alinumbercrunch`: GitHub → Settings → Developer settings → Fine-grained tokens → new token: *Only select repositories* → `crystall-lit-hands`, *Contents: Read and write*, 90 days.
+2. Put it in `.env` as `GITHUB_CMS_TOKEN` and upload it: `npx wrangler@4.148.0 secret put GITHUB_TOKEN -c worker/wrangler.toml` (with `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` from `.env` in the environment).
+3. Update `TOKEN_EXPIRES` in `.github/workflows/token-reminder.yml`, delete the old token on GitHub, and close the reminder issue.
+
+GitHub pauses scheduled workflows after 60 days without commits; editor saves count as commits, but check the workflow is enabled if the site has been quiet.
+
+**Content files** — `content/salon.yml` (menu, booking, access, social links), `content/home.yml` (page text), `content/privacy.yml` (privacy policy, `/privacy/`). The privacy policy is a plain-language draft; have it reviewed before relying on it.
+
 ## How it works
 
 - **Tubes on the GPU** — each tube is a static grid of `(progress, angle)`. A TSL `positionNode` samples a Catmull-Rom curve from a storage buffer, takes the tangent by central difference, builds the cross-section from a fixed +Z axis, and outputs position and normal. `MeshStandardNodeMaterial` lights it. All strands are one instanced draw.
@@ -113,6 +131,9 @@ Free Google accounts take bookings and send confirmation emails; taking payment 
 | `scripts/blog.js`, `posts/` | Blog generator (Markdown → static HTML at build time) and the posts |
 | `scripts/salon.js`, `content/salon.yml` | Menu, booking and access details → `index.html` at build time |
 | `scripts/home.js`, `content/home.yml` | Page text → every page at build time and to `i18n.js` (`virtual:home-strings`) |
+| `scripts/privacy.js`, `content/privacy.yml` | Privacy policy → `privacy/index.html` (generated, like `blog/`) |
+| `public/favicon.svg`, `apple-touch-icon.png`, `og.png` | Merkaba site icon and the share-preview image |
+| `.github/workflows/token-reminder.yml` | Weekly check that opens an issue before the editor's token expires |
 | `scripts/content.js` | Shared validation and formatting for `content/` |
 | `booking.js` | Opens Google's booking page in a panel on wider screens |
 | `worker/` | Cloudflare Worker: editor sign-in and GitHub API gateway (`wrangler.toml`, tests) |

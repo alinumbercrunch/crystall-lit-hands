@@ -2,6 +2,7 @@
 # Site editor at /admin/. Saving commits to main, which deploys the site.
 # Blog layout must match scripts/blog.js: posts/<slug>/index.<locale>.md
 # Salon info layout must match scripts/salon.js: content/salon.yml
+# Page text: scripts/home.js (content/home.yml); privacy policy: scripts/privacy.js (content/privacy.yml)
 
 backend:
   name: github
@@ -137,6 +138,13 @@ collections:
             name: privacy_note
             widget: object
             fields: *para
+          - label: SNS / Social
+            name: social
+            widget: object
+            hint: プロフィールのURL（空欄なら非表示） / Profile link; leave empty to hide
+            fields:
+              - { label: Instagram, name: instagram, widget: string, required: false, hint: "https://www.instagram.com/…" }
+              - { label: Threads, name: threads, widget: string, required: false, hint: "https://www.threads.com/@…" }
 
   # Headings, intro texts, first-visit steps, FAQ and footer. Read by scripts/home.js;
   # an empty English field shows the Japanese text (and the other way round).
@@ -224,3 +232,19 @@ collections:
               - { label: 小見出し / Eyebrow, name: eyebrow, widget: object, fields: *line }
               - { label: 見出し / Heading, name: heading, widget: object, fields: *para }
               - { label: フッター / Footer, name: footer, widget: object, fields: *para }
+
+  # Privacy policy page at /privacy/. Read by scripts/privacy.js.
+  - name: privacy
+    label: プライバシーポリシー / Privacy policy
+    files:
+      - name: privacy
+        label: プライバシーポリシー / Privacy policy
+        file: content/privacy.yml
+        fields:
+          - { label: タイトル / Title, name: title, widget: object, fields: *line }
+          - label: 本文 / Text
+            name: body
+            widget: object
+            fields:
+              - { label: 日本語, name: ja, widget: richtext, required: false }
+              - { label: English, name: en, widget: richtext, required: false }

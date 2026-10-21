@@ -89,5 +89,10 @@ export function renderHome(html, data) {
       return `<${name}${attrs}>${isHtml ? en[key] : esc(en[key])}</${name}>`;
     })
     .replace(/<meta\b[^>]*\bdata-i18n-content="([^"]+)"[^>]*>/g, (tag, key) =>
-      key in en ? tag.replace(/(\s)content="[^"]*"/, `$1content="${esc(en[key])}"`) : tag);
+      key in en ? tag.replace(/(\s)content="[^"]*"/, `$1content="${esc(en[key])}"`) : tag)
+    // Share-preview tags are read by crawlers, not by i18n.js: fixed to Japanese at build.
+    .replace(/<meta\b[^>]*\bdata-fill-ja="([^"]+)"[^>]*>/g, (tag, key) => {
+      if (!(key in data.strings.ja)) throw new Error(`data-fill-ja: unknown key ${key}`);
+      return tag.replace(/(\s)content="[^"]*"/, `$1content="${esc(data.strings.ja[key])}"`);
+    });
 }

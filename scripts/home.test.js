@@ -61,6 +61,8 @@ test("renders steps and FAQ, fills keyed elements and meta, leaves other keys al
   assert.match(html, /card-num">01<\/span>[\s\S]*card-num">03<\/span>/);
   assert.match(html, /<summary data-text-en="Do I need any experience\?" data-text-ja="経験がなくても大丈夫ですか？">/);
   assert.throws(() => renderHome("<!-- home:nope -->", data), /unknown marker/);
+  assert.match(renderHome('<meta property="og:title" data-fill-ja="s.title" content="" />', data), /content="HAKU — 鎌倉のエネルギーヒーリングサロン"/);
+  assert.throws(() => renderHome('<meta data-fill-ja="nope" content="" />', data), /unknown key nope/);
 });
 
 // Keeps the four places in step: KEYS, the CMS fields, index.html/blog.js and i18n.js.

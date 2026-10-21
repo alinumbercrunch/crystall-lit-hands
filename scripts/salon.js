@@ -25,6 +25,21 @@ function url(v, where) {
   return s;
 }
 
+// Social profiles: https links on these hosts only; an empty field hides the link.
+const SOCIAL = {
+  instagram: { label: "Instagram", hosts: ["instagram.com", "www.instagram.com"] },
+  threads: { label: "Threads", hosts: ["threads.net", "www.threads.net", "threads.com", "www.threads.com"] },
+};
+
+function social(v) {
+  return Object.entries(SOCIAL).flatMap(([key, { label, hosts }]) => {
+    const link = url(v?.[key], `${label} link`);
+    if (!link) return [];
+    if (!hosts.includes(new URL(link).hostname)) throw new Error(`${NAME}: ${label} link must be on ${hosts[0]}, got "${link}"`);
+    return [{ label, url: link }];
+  });
+}
+
 export function parseSalon(src) {
   const data = parseFile(src, NAME);
   if (!Array.isArray(data.sessions) || !data.sessions.length) throw new Error(`${NAME}: add at least one session`);
@@ -42,6 +57,7 @@ export function parseSalon(src) {
     menuNote: text(data.menu_note, "menu note", true),
     info: (data.info ?? []).map((row, i) => ({ label: text(row?.label, `access row ${i + 1} label`), value: text(row?.value, `access row ${i + 1} value`) })),
     notes: [text(data.booking_note, "booking note", true), text(data.privacy_note, "privacy note", true)].filter(Boolean),
+    social: social(data.social),
   };
 }
 
@@ -86,6 +102,10 @@ const BLOCKS = {
     return `          <li>${attrs ? `<a class="card book-option" ${attrs}>${inner}</a>` : `<div class="card book-option is-soon">${inner}</div>`}</li>`;
   }).join("\n"),
   "booking-notes": (d) => d.notes.map((t) => el("p", "note", t)).join("\n"),
+  // On every page (index.html and scripts/blog.js), just above the footer.
+  social: (d) => (d.social.length
+    ? `<nav class="social" aria-label="Social">${d.social.map((s) => `<a href="${esc(s.url)}" target="_blank" rel="noopener me">${s.label}</a>`).join("")}</nav>`
+    : ""),
 };
 
 export function renderSalon(html, data) {

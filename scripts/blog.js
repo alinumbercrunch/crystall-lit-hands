@@ -87,14 +87,15 @@ const NAV = `
       <nav aria-label="Main">
         <a href="../#about" data-i18n="s.nav.about">About</a>
         <a href="../#menu" data-i18n="s.nav.menu">Menu</a>
-        <a href="./" data-i18n="s.nav.blog">Blog</a>
+        <a href="../blog/" data-i18n="s.nav.blog">Blog</a>
         <a href="../#access" data-i18n="s.nav.access">Access</a>
       </nav>
       <button class="lang-toggle" type="button" data-lang-toggle data-i18n="lang.switch">日本語</button>
       <a class="btn btn--solid btn--small" href="../#book" data-i18n="s.nav.book">Book</a>
     </header>`;
 
-function page({ title, titleAttrs, desc, descAttrs, body }) {
+// Layout for pages one folder deep (blog/, privacy/): links are relative to that folder.
+export function page({ title, titleAttrs, desc, descAttrs, body }) {
   return `<!doctype html>
 <html lang="en">
   <head>
@@ -103,6 +104,8 @@ function page({ title, titleAttrs, desc, descAttrs, body }) {
     <meta name="theme-color" content="#ffffff" />
     <title ${titleAttrs}>${esc(title)}</title>
     <meta name="description" content="${esc(desc)}" ${descAttrs} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Shippori+Mincho:wght@400;500&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet" />
@@ -112,6 +115,7 @@ function page({ title, titleAttrs, desc, descAttrs, body }) {
     <main>
 ${body}
     </main>
+    <!-- salon:social -->
     <footer class="footer" data-i18n-html="blog.footer"></footer>
     <script type="module" src="/i18n.js"></script>
   </body>
