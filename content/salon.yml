@@ -1,7 +1,7 @@
 sessions:
   - name:
       ja: レイキヒーリング
-      en: Reiki healing.
+      en: Reiki healing
     minutes: 60
     price: 9800
     description:
