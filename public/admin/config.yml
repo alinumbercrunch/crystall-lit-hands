@@ -1,14 +1,22 @@
 # yaml-language-server: $schema=https://unpkg.com/@sveltia/cms@0.224.0/schema/sveltia-cms.json
-# Blog editor at /admin/. Saving commits to main, which deploys the site.
-# File layout must match scripts/blog.js: posts/<slug>/index.<locale>.md
+# Site editor at /admin/. Saving commits to main, which deploys the site.
+# Blog layout must match scripts/blog.js: posts/<slug>/index.<locale>.md
+# Salon info layout must match scripts/salon.js: content/salon.yml
 
 backend:
   name: github
   repo: alinumbercrunch/crystall-lit-hands
   branch: main
+  # Sign-in is Cloudflare Access; worker/ answers the sign-in popup and forwards
+  # GitHub API calls with its own token (REQUIREMENTS.md). Values must match worker/wrangler.toml.
+  base_url: https://ayakahaku.com
+  auth_endpoint: cms/auth
+  auth_methods: [oauth]
+  api_root: https://ayakahaku.com/cms/api
+  graphql_api_root: https://ayakahaku.com/cms/api/graphql
   commit_messages:
     create: "Blog: add {{slug}}"
-    update: "Blog: update {{slug}}"
+    update: "Content: update {{slug}}"
     delete: "Blog: delete {{slug}}"
 
 site_url: https://ayakahaku.com/
@@ -61,3 +69,75 @@ collections:
         widget: richtext
         i18n: true
         hint: 目安は日本語で約1,600字、英語で約700語（約4分） / About 700 English words (≈4 min read)
+
+  # Menu, booking and access on the home page. Read by scripts/salon.js; an
+  # empty English field shows the Japanese text (and the other way round).
+  - name: salon
+    label: サロン情報 / Salon info
+    files:
+      - name: salon
+        label: メニュー・予約・アクセス / Menu, booking & access
+        file: content/salon.yml
+        fields:
+          - label: セッション / Sessions
+            name: sessions
+            widget: list
+            summary: "{{fields.name.ja}} · {{fields.minutes}}分"
+            hint: 並び順はサイトの表示順です / Shown on the site in this order
+            fields:
+              - label: 名前 / Name
+                name: name
+                widget: object
+                fields:
+                  - { label: 日本語, name: ja, widget: string }
+                  - { label: English, name: en, widget: string, required: false }
+              - { label: 時間（分） / Minutes, name: minutes, widget: number, value_type: int, min: 1 }
+              - { label: 料金（円・税込） / Price (yen, tax incl.), name: price, widget: number, value_type: int, min: 0 }
+              - label: 説明 / Description
+                name: description
+                widget: object
+                fields:
+                  - { label: 日本語, name: ja, widget: text, required: false }
+                  - { label: English, name: en, widget: text, required: false }
+              - label: 予約リンク / Booking link
+                name: booking_url
+                widget: string
+                required: false
+                hint: >-
+                  Googleカレンダーの予約スケジュール →「共有」→「ウェブサイトに埋め込む」のリンク（https://calendar.google.com/calendar/appointments/schedules/…）を貼るとページ内に表示、「予約ページのリンク」は新しいタブで開きます。空欄なら「準備中」と表示。 /
+                  Google Calendar appointment schedule → Share → "Website embed" link opens on the page; the "Booking page" link opens a new tab. Leave empty to show "coming soon".
+          - label: メニューの注記 / Menu note
+            name: menu_note
+            widget: object
+            fields:
+              - { label: 日本語, name: ja, widget: string, required: false }
+              - { label: English, name: en, widget: string, required: false }
+          - label: アクセス情報 / Access details
+            name: info
+            widget: list
+            summary: "{{fields.label.ja}}"
+            fields:
+              - label: 項目 / Label
+                name: label
+                widget: object
+                fields:
+                  - { label: 日本語, name: ja, widget: string }
+                  - { label: English, name: en, widget: string, required: false }
+              - label: 内容 / Value
+                name: value
+                widget: object
+                fields:
+                  - { label: 日本語, name: ja, widget: string }
+                  - { label: English, name: en, widget: string, required: false }
+          - label: 予約の注記（支払い・キャンセル） / Booking note (payment, cancellation)
+            name: booking_note
+            widget: object
+            fields:
+              - { label: 日本語, name: ja, widget: text, required: false }
+              - { label: English, name: en, widget: text, required: false }
+          - label: 個人情報の注記 / Privacy note
+            name: privacy_note
+            widget: object
+            fields:
+              - { label: 日本語, name: ja, widget: text, required: false }
+              - { label: English, name: en, widget: text, required: false }

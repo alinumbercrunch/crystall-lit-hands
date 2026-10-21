@@ -1,0 +1,16 @@
+# CMS gateway Worker (worker/index.js, REQUIREMENTS.md). Deploy: npx wrangler deploy -c worker/wrangler.toml
+# Secret: npx wrangler secret put GITHUB_TOKEN -c worker/wrangler.toml
+name = "haku-cms"
+main = "index.js"
+compatibility_date = "2026-09-01"
+workers_dev = false
+routes = [{ pattern = "ayakahaku.com/cms/*", zone_name = "ayakahaku.com" }]
+
+[vars]
+SITE_ORIGIN = "https://ayakahaku.com"
+# Must match backend.repo in public/admin/config.yml (checked by worker/index.test.js).
+REPO = "alinumbercrunch/crystall-lit-hands"
+# From Zero Trust → Settings (team domain, e.g. haku.cloudflareaccess.com) and the
+# Access application (AUD tag). The Worker answers 503 until both are set.
+TEAM_DOMAIN = ""
+ACCESS_AUD = ""

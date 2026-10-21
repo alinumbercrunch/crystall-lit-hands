@@ -30,20 +30,19 @@ npm run dev
 
 Open **[/admin/](https://ayakahaku.com/admin/)**, sign in, and use **New Post / 新規作成**. Each post has a Japanese and an English tab; fill in title, date, description and body, then **Save**. Saving commits the post to `main` and the site updates about a minute later.
 
-**One-time setup:**
+**Signing in:** editors sign in with their email through Cloudflare Access (a code is sent to their inbox), then click **Sign In with GitHub** — no GitHub account or token needed. The `worker/` gateway holds the GitHub token and only forwards calls for this repo; see [REQUIREMENTS.md](REQUIREMENTS.md).
 
-1. Create a **fine-grained** token (GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens):
-   - **Resource owner:** the account that owns this repo (not an organisation)
-   - **Repository access:** *Only select repositories* → `crystall-lit-hands`
-   - **Permissions:** *Contents: Read and write* (Metadata: Read is added automatically); nothing else
-   - **Expiration:** e.g. 90 days
-2. On the admin login screen choose **Sign In with Token** and paste it once; the browser remembers it.
+**One-time setup (developer):**
 
-Don't use a classic token — its `repo` scope covers every repository the account can reach, including organisations. Fine-grained tokens only reach repos owned by the token's resource owner, so a separate editor account that is merely a collaborator can't use one here; for a real client, host the repo under their account/org or add OAuth sign-in.
+1. Cloudflare Zero Trust → **Access → Applications → Add → Self-hosted** with destinations `ayakahaku.com/admin` and `ayakahaku.com/cms`, a policy allowing the editors' emails, and the **One-time PIN** login. Put the team domain and the application's **AUD** tag in `worker/wrangler.toml`.
+2. Create a **fine-grained** GitHub token as the repo owner: *Only select repositories* → `crystall-lit-hands`, *Contents: Read and write*, nothing else, with an expiry (e.g. 90 days). Don't use a classic token — its `repo` scope reaches every repository the account can.
+3. `npx wrangler secret put GITHUB_TOKEN -c worker/wrangler.toml` (paste the token), then `npx wrangler deploy -c worker/wrangler.toml`. Repeat the secret step when the token expires.
 
-> **記事の書き方（オーナー向け）** — [/admin/](https://ayakahaku.com/admin/) を開き、トークンでログインして「新規作成」。日本語・英語のタブにタイトル、公開日、概要、本文を入力して「保存」すると、約1分後にサイトへ反映されます。英語を書かない場合は、英語タブをオフにすれば日本語版が表示されます。
+Add or remove editors in the Access policy.
 
-Developers can try the editor without a token: open `/admin/` in Chrome or Edge and choose **Work with Local Repository**, then pick this folder.
+> **記事の書き方（オーナー向け）** — [/admin/](https://ayakahaku.com/admin/) を開き、メールアドレスに届くコードでログインし、「Sign In with GitHub」を押してから「新規作成」。日本語・英語のタブにタイトル、公開日、概要、本文を入力して「保存」すると、約1分後にサイトへ反映されます。英語を書かない場合は、英語タブをオフにすれば日本語版が表示されます。
+
+Developers can try the editor without signing in: open `/admin/` in Chrome or Edge and choose **Work with Local Repository**, then pick this folder.
 
 ### As files
 
@@ -63,6 +62,32 @@ The folder name is the URL (`posts/autumn-equinox/` → `/blog/autumn-equinox.ht
 
 Posts are listed newest first. If one language is missing, readers of that language see the other version with a short note. A post with a missing title/date/description or invalid date fails the build (and the deploy), so it never half-publishes. `blog/` is generated — don't edit it by hand.
 
+## Menu, booking and access
+
+Session names, prices, booking links, access details and the booking notes live in `content/salon.yml`. Edit them at **[/admin/](https://ayakahaku.com/admin/) → サロン情報 / Salon info** (same sign-in as the blog), or edit the file directly. The build fills the menu, booking and access sections of `index.html` from it; a session without a name, a non-whole-number price/duration or a non-`https://` link fails the build (and the deploy). An empty English field shows the Japanese text.
+
+> **メニュー・予約の編集（オーナー向け）** — [/admin/](https://ayakahaku.com/admin/) の「サロン情報」から、セッション名・時間・料金・予約リンク・アクセス情報を編集して「保存」すると、約1分後にサイトへ反映されます。予約リンクが空のセッションは「オンライン予約は準備中です」と表示されます。
+
+**Booking links (Google Calendar appointment schedules).** Create one schedule per session in the salon's Google account: Google Calendar on the web → **Create → Appointment schedule**. Suggested settings, from the site's copy (one room, tea before and a quiet return after):
+
+| Setting | Value |
+| --- | --- |
+| Appointment duration | session + 30 min (Reiki 90, Crystal light 120, Sound & breath 75) |
+| General availability | Mon, Wed–Sun 10:00–18:00 (closed Tuesdays) |
+| Booking window | up to 60 days ahead, at least 24 hours' notice |
+| Buffer time | 15 min after |
+| Max bookings per day | 4 |
+| Calendars checked for availability | the salon calendar, in every schedule — one booking then blocks the other sessions |
+| Booking form | name, email, phone; "First visit?" (¥2,000 off); "Anything we should know?" |
+| Description | the cancellation policy |
+
+Then **Share** the schedule and paste a link into the session's **予約リンク / Booking link**:
+
+- **Website embed → Inline** link (`https://calendar.google.com/calendar/appointments/schedules/…`) — opens in a panel on the page (desktop) or a new tab (phones).
+- **Booking page** link (`https://calendar.app.google/…`) — always opens in a new tab.
+
+Free Google accounts take bookings and send confirmation emails; taking payment when booking needs Google Workspace, so the site says "payment at the salon".
+
 ## How it works
 
 - **Tubes on the GPU** — each tube is a static grid of `(progress, angle)`. A TSL `positionNode` samples a Catmull-Rom curve from a storage buffer, takes the tangent by central difference, builds the cross-section from a fixed +Z axis, and outputs position and normal. `MeshStandardNodeMaterial` lights it. All strands are one instanced draw.
@@ -80,7 +105,11 @@ Posts are listed newest first. If one language is missing, readers of that langu
 | `index.html`, `light.html`, `crystall.html` | The three pages (`data-theme` picks the scene palette) |
 | `styles.css` | Shared styles, light theme, Japanese typography |
 | `scripts/blog.js`, `posts/` | Blog generator (Markdown → static HTML at build time) and the posts |
-| `public/admin/` | Blog editor ([Sveltia CMS](https://sveltiacms.app/), MIT) and its config |
+| `scripts/salon.js`, `content/salon.yml` | Menu, booking and access details → `index.html` at build time |
+| `booking.js` | Opens Google's booking page in a panel on wider screens |
+| `worker/` | Cloudflare Worker: editor sign-in and GitHub API gateway (`wrangler.toml`, tests) |
+| `REQUIREMENTS.md` | Engineering rules and the editor sign-in requirements |
+| `public/admin/` | Site editor for the blog and salon info ([Sveltia CMS](https://sveltiacms.app/), MIT) and its config |
 | `i18n.js` | EN/JA strings and the language toggle (`?lang=ja`, saved choice, or browser language) |
 | `entry.js` | Loads the scene only when WebGPU is available |
 | `main.js` | Shared stage: renderer, theme, orb, breathing, scroll, pointer |

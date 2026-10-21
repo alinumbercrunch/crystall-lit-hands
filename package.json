@@ -6,7 +6,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "node --test scripts/*.test.js"
+    "test": "node --test scripts/*.test.js worker/*.test.js"
   },
   "dependencies": {
     "three": "0.185.1"

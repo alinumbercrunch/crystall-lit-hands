@@ -4,3 +4,4 @@ dist
 blog/
 .env
 .mcp.json
+.wrangler
