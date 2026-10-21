@@ -4,15 +4,15 @@
 
 backend:
   name: github
-  repo: alihaddi-dotcom/crystall-lit-hands
+  repo: alinumbercrunch/crystall-lit-hands
   branch: main
   commit_messages:
     create: "Blog: add {{slug}}"
     update: "Blog: update {{slug}}"
     delete: "Blog: delete {{slug}}"
 
-site_url: https://alihaddi-dotcom.github.io/crystall-lit-hands/
-display_url: https://alihaddi-dotcom.github.io/crystall-lit-hands/
+site_url: https://ayakahaku.com/
+display_url: https://ayakahaku.com/
 
 # Images land in public/media/. The CMS requires an absolute public_folder;
 # scripts/blog.js rewrites /media/… to ../media/… so it works under any base path.

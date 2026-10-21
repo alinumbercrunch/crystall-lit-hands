@@ -1,15 +1,15 @@
 # CRYSTALL — Lit Hands
 
-**Live:** https://alihaddi-dotcom.github.io/crystall-lit-hands/ (needs a WebGPU browser)
+**Live:** https://ayakahaku.com/ (needs a WebGPU browser)
 
 Experimental landing pages built around one WebGL/WebGPU scene: ~1,500 lit GPU tubes drawn over two hands or a diamond, around a glowing orb, behind a plain HTML page. English / Japanese.
 
 | Page | |
 | --- | --- |
-| [`/`](https://alihaddi-dotcom.github.io/crystall-lit-hands/) | **HAKU** — a fictional energy healing salon (white-light theme, particle merkaba) |
-| [`/light.html`](https://alihaddi-dotcom.github.io/crystall-lit-hands/light.html) | **LUMEN** — meditation page (white-light theme) |
-| [`/blog/`](https://alihaddi-dotcom.github.io/crystall-lit-hands/blog/) | **HAKU Journal** — bilingual blog, generated from Markdown |
-| [`/crystall.html`](https://alihaddi-dotcom.github.io/crystall-lit-hands/crystall.html) | **CRYSTALL** — the original dark version |
+| [`/`](https://ayakahaku.com/) | **HAKU** — a fictional energy healing salon (white-light theme, particle merkaba) |
+| [`/light.html`](https://ayakahaku.com/light.html) | **LUMEN** — meditation page (white-light theme) |
+| [`/blog/`](https://ayakahaku.com/blog/) | **HAKU Journal** — bilingual blog, generated from Markdown |
+| [`/crystall.html`](https://ayakahaku.com/crystall.html) | **CRYSTALL** — the original dark version |
 
 Built with Three.js `WebGPURenderer` and TSL. The tube technique is a from-scratch reimplementation of the approach described in Mathis Biabiany's Codrops article [Drawing With Light: An Exploration of Lit GPU Tubes with TSL and WebGPU](https://tympanus.net/codrops/2026/09/07/drawing-with-light-an-exploration-of-lit-gpu-tubes-with-tsl-and-webgpu/) ([original demo](https://luminhands.netlify.app/)).
 
@@ -28,7 +28,7 @@ npm run dev
 
 ### In the browser (for the salon owner)
 
-Open **[/admin/](https://alihaddi-dotcom.github.io/crystall-lit-hands/admin/)**, sign in, and use **New Post / 新規作成**. Each post has a Japanese and an English tab; fill in title, date, description and body, then **Save**. Saving commits the post to `main` and the site updates about a minute later.
+Open **[/admin/](https://ayakahaku.com/admin/)**, sign in, and use **New Post / 新規作成**. Each post has a Japanese and an English tab; fill in title, date, description and body, then **Save**. Saving commits the post to `main` and the site updates about a minute later.
 
 **One-time setup:**
 
@@ -41,7 +41,7 @@ Open **[/admin/](https://alihaddi-dotcom.github.io/crystall-lit-hands/admin/)**,
 
 Don't use a classic token — its `repo` scope covers every repository the account can reach, including organisations. Fine-grained tokens only reach repos owned by the token's resource owner, so a separate editor account that is merely a collaborator can't use one here; for a real client, host the repo under their account/org or add OAuth sign-in.
 
-> **記事の書き方（オーナー向け）** — [/admin/](https://alihaddi-dotcom.github.io/crystall-lit-hands/admin/) を開き、トークンでログインして「新規作成」。日本語・英語のタブにタイトル、公開日、概要、本文を入力して「保存」すると、約1分後にサイトへ反映されます。英語を書かない場合は、英語タブをオフにすれば日本語版が表示されます。
+> **記事の書き方（オーナー向け）** — [/admin/](https://ayakahaku.com/admin/) を開き、トークンでログインして「新規作成」。日本語・英語のタブにタイトル、公開日、概要、本文を入力して「保存」すると、約1分後にサイトへ反映されます。英語を書かない場合は、英語タブをオフにすれば日本語版が表示されます。
 
 Developers can try the editor without a token: open `/admin/` in Chrome or Edge and choose **Work with Local Repository**, then pick this folder.
 
