@@ -1,0 +1,147 @@
+page:
+  title:
+    ja: HAKU — 鎌倉のエネルギーヒーリングサロン
+    en: HAKU — Energy healing salon in Kamakura
+  description:
+    ja: HAKU — 鎌倉の完全予約制エネルギーヒーリングサロン。レイキ、クリスタル、サウンドのセッション。
+    en: HAKU — a private energy healing salon in Kamakura. Reiki, crystal light and sound sessions.
+hero:
+  eyebrow:
+    ja: エネルギーヒーリングサロン・鎌倉
+    en: Energy healing salon · Kamakura
+  heading:
+    ja: |-
+      あなた本来の
+      *光へ、還る。*
+    en: |-
+      Come back
+      *to your own light.*
+  lede:
+    ja: 海から歩いて数分の、静かな個室サロン。レイキ、クリスタル、サウンドのセッションで、深く休み、自分らしさを取り戻す時間を。
+    en: A quiet, private room a few minutes from the sea. Reiki, crystal light and sound sessions to help you rest deeply and feel like yourself again.
+  book_button:
+    ja: セッションを予約
+    en: Book a session
+  menu_button:
+    ja: メニューを見る
+    en: View menu
+about:
+  eyebrow:
+    ja: HAKUについて
+    en: About HAKU
+  heading:
+    ja: |-
+      ひとつの部屋に、
+      *おひとりずつ。*
+    en: |-
+      One room.
+      *One guest at a time.*
+  body:
+    ja: HAKUは「白」。すべての色に分かれる前の、光の色です。セッションは完全予約制のプライベート空間で、時間を気にせずゆっくりと。お茶とカウンセリングから始まり、あとは横になって、ただ休むだけ。
+    en: "HAKU means “white” — the colour of light before it splits into all the others. Sessions are fully private and unhurried: we begin with tea and a conversation, then you simply lie down and rest."
+menu:
+  eyebrow:
+    ja: メニュー
+    en: Menu
+  heading:
+    ja: |-
+      セッションを
+      *選ぶ。*
+    en: |-
+      Choose
+      *your session.*
+visit:
+  eyebrow:
+    ja: はじめての方へ
+    en: Your first visit
+  heading:
+    ja: |-
+      当日の
+      *流れ。*
+    en: |-
+      What to
+      *expect.*
+  steps:
+    - title:
+        ja: お茶とカウンセリング
+        en: Tea & conversation
+      body:
+        ja: 今日の体調や気持ち、セッションで望むことをお聞かせください。
+        en: We talk about how you feel today and what you would like from the session.
+    - title:
+        ja: 横になって受け取る
+        en: Rest & receive
+      body:
+        ja: 着衣のまま横になります。何もしなくて大丈夫です。
+        en: You lie down fully clothed. There is nothing you need to do.
+    - title:
+        ja: ゆっくりと戻る
+        en: Gentle return
+      body:
+        ja: 座ってお水を飲みながら、感じたことを自由にお話しください。
+        en: Time to sit, drink some water and share anything you noticed.
+faq:
+  eyebrow:
+    ja: よくある質問
+    en: Questions
+  items:
+    - question:
+        ja: 経験がなくても大丈夫ですか？
+        en: Do I need any experience?
+      answer:
+        ja: まったく問題ありません。多くの方がはじめてのご来店です。
+        en: None at all. Most guests come for the first time without knowing what to expect.
+    - question:
+        ja: 服装は？
+        en: What should I wear?
+      answer:
+        ja: 楽な服装でお越しください。セッション中も着衣のままです。
+        en: Comfortable clothes. You stay dressed for every session.
+    - question:
+        ja: 医療行為ですか？
+        en: Is this a medical treatment?
+      answer:
+        ja: いいえ。エネルギーヒーリングはリラクゼーションを目的としたもので、診断や治療を行うものではありません。体調に関するご相談は医療機関へお願いいたします。
+        en: No. Energy healing is a relaxation practice and does not diagnose or treat any condition. Please keep seeing your doctor for any health concerns.
+access:
+  eyebrow:
+    ja: アクセス
+    en: Access
+  heading:
+    ja: |-
+      サロン
+      *情報。*
+    en: |-
+      Visit
+      *HAKU.*
+closing:
+  quote:
+    ja: |-
+      「休むことは、ご褒美ではなく、
+      はじまりです。」
+    en: |-
+      “Rest is not a reward.
+      It is where you begin.”
+footer:
+  ja: HAKUはデザインプロトタイプ用の架空のサロンです · [LUMEN](./light.html) · [CRYSTALL](./crystall.html)
+  en: HAKU is a fictional salon for a design prototype · [LUMEN](./light.html) · [CRYSTALL](./crystall.html)
+blog:
+  title:
+    ja: ジャーナル — HAKU
+    en: Journal — HAKU
+  description:
+    ja: 鎌倉のエネルギーヒーリングサロン、HAKUからの便り。
+    en: Notes from HAKU, an energy healing salon in Kamakura.
+  eyebrow:
+    ja: ジャーナル
+    en: Journal
+  heading:
+    ja: |-
+      休息と光について、
+      *綴ること。*
+    en: |-
+      Notes on rest
+      *and light.*
+  footer:
+    ja: HAKUはデザインプロトタイプ用の架空のサロンです · [ホーム](../)
+    en: HAKU is a fictional salon for a design prototype · [Home](../)

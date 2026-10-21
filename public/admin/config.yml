@@ -96,7 +96,7 @@ collections:
               - label: 説明 / Description
                 name: description
                 widget: object
-                fields:
+                fields: &para # 日本語 / English, multi-line
                   - { label: 日本語, name: ja, widget: text, required: false }
                   - { label: English, name: en, widget: text, required: false }
               - label: 予約リンク / Booking link
@@ -109,7 +109,7 @@ collections:
           - label: メニューの注記 / Menu note
             name: menu_note
             widget: object
-            fields:
+            fields: &line # 日本語 / English, one line
               - { label: 日本語, name: ja, widget: string, required: false }
               - { label: English, name: en, widget: string, required: false }
           - label: アクセス情報 / Access details
@@ -132,12 +132,95 @@ collections:
           - label: 予約の注記（支払い・キャンセル） / Booking note (payment, cancellation)
             name: booking_note
             widget: object
-            fields:
-              - { label: 日本語, name: ja, widget: text, required: false }
-              - { label: English, name: en, widget: text, required: false }
+            fields: *para
           - label: 個人情報の注記 / Privacy note
             name: privacy_note
             widget: object
+            fields: *para
+
+  # Headings, intro texts, first-visit steps, FAQ and footer. Read by scripts/home.js;
+  # an empty English field shows the Japanese text (and the other way round).
+  - name: home
+    label: ホームページの文章 / Page text
+    files:
+      - name: home
+        label: ホーム・ブログの文章 / Home & blog page text
+        file: content/home.yml
+        description: >-
+          *ことば* で斜体、改行で改行、[文字](リンク) でリンクになります（見出し・引用・フッター）。 /
+          In headings, the quote and the footer: *words* → italics, a new line → line break, [text](link) → link.
+        fields:
+          - label: ページ情報 / Page (browser tab & search results)
+            name: page
+            widget: object
             fields:
-              - { label: 日本語, name: ja, widget: text, required: false }
-              - { label: English, name: en, widget: text, required: false }
+              - { label: タイトル / Title, name: title, widget: object, fields: *line }
+              - { label: 説明 / Description, name: description, widget: object, fields: *para }
+          - label: トップ / Hero
+            name: hero
+            widget: object
+            fields:
+              - { label: 小見出し / Eyebrow, name: eyebrow, widget: object, fields: *line }
+              - { label: 見出し / Heading, name: heading, widget: object, fields: *para }
+              - { label: 紹介文 / Intro, name: lede, widget: object, fields: *para }
+              - { label: 予約ボタン / Book button, name: book_button, widget: object, fields: *line }
+              - { label: メニューボタン / Menu button, name: menu_button, widget: object, fields: *line }
+          - label: サロンについて / About
+            name: about
+            widget: object
+            fields:
+              - { label: 小見出し / Eyebrow, name: eyebrow, widget: object, fields: *line }
+              - { label: 見出し / Heading, name: heading, widget: object, fields: *para }
+              - { label: 本文 / Text, name: body, widget: object, fields: *para }
+          - label: メニュー / Menu
+            name: menu
+            widget: object
+            fields:
+              - { label: 小見出し / Eyebrow, name: eyebrow, widget: object, fields: *line }
+              - { label: 見出し / Heading, name: heading, widget: object, fields: *para }
+          - label: はじめての方へ / First visit
+            name: visit
+            widget: object
+            fields:
+              - { label: 小見出し / Eyebrow, name: eyebrow, widget: object, fields: *line }
+              - { label: 見出し / Heading, name: heading, widget: object, fields: *para }
+              - label: ステップ / Steps
+                name: steps
+                widget: list
+                summary: "{{fields.title.ja}}"
+                fields:
+                  - { label: タイトル / Title, name: title, widget: object, fields: *line }
+                  - { label: 本文 / Text, name: body, widget: object, fields: *para }
+          - label: よくある質問 / FAQ
+            name: faq
+            widget: object
+            fields:
+              - { label: 小見出し / Eyebrow, name: eyebrow, widget: object, fields: *line }
+              - label: 質問 / Questions
+                name: items
+                widget: list
+                summary: "{{fields.question.ja}}"
+                fields:
+                  - { label: 質問 / Question, name: question, widget: object, fields: *line }
+                  - { label: 回答 / Answer, name: answer, widget: object, fields: *para }
+          - label: アクセス / Access
+            name: access
+            widget: object
+            fields:
+              - { label: 小見出し / Eyebrow, name: eyebrow, widget: object, fields: *line }
+              - { label: 見出し / Heading, name: heading, widget: object, fields: *para }
+          - label: 予約セクションの引用 / Booking section quote
+            name: closing
+            widget: object
+            fields:
+              - { label: 引用 / Quote, name: quote, widget: object, fields: *para }
+          - { label: フッター / Footer, name: footer, widget: object, fields: *para }
+          - label: ブログ一覧ページ / Blog list page
+            name: blog
+            widget: object
+            fields:
+              - { label: タイトル / Title, name: title, widget: object, fields: *line }
+              - { label: 説明 / Description, name: description, widget: object, fields: *para }
+              - { label: 小見出し / Eyebrow, name: eyebrow, widget: object, fields: *line }
+              - { label: 見出し / Heading, name: heading, widget: object, fields: *para }
+              - { label: フッター / Footer, name: footer, widget: object, fields: *para }

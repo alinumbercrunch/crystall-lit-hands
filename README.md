@@ -62,6 +62,12 @@ The folder name is the URL (`posts/autumn-equinox/` → `/blog/autumn-equinox.ht
 
 Posts are listed newest first. If one language is missing, readers of that language see the other version with a short note. A post with a missing title/date/description or invalid date fails the build (and the deploy), so it never half-publishes. `blog/` is generated — don't edit it by hand.
 
+## Page text
+
+Headings, intro texts, the first-visit steps, the FAQ, the quote, the footer, the page title/description and the blog list headings live in `content/home.yml`. Edit them at **/admin/ → ホームページの文章 / Page text**. In headings, the quote and the footer, `*words*` become italics, a new line is a line break, and `[text](link)` is a link (`https://`, `mailto:`, `#` or a relative path only). Empty required text, an empty step/FAQ list or an unsafe link fails the build. Interface labels (navigation, buttons in the booking panel) stay in `i18n.js`.
+
+> **ホームページの文章の編集（オーナー向け）** — /admin/ の「ホームページの文章」から、見出し・紹介文・はじめての方へ・よくある質問・フッターなどを編集できます。見出しでは `*ことば*` が斜体、改行がそのまま改行、`[文字](リンク)` がリンクになります。
+
 ## Menu, booking and access
 
 Session names, prices, booking links, access details and the booking notes live in `content/salon.yml`. Edit them at **[/admin/](https://ayakahaku.com/admin/) → サロン情報 / Salon info** (same sign-in as the blog), or edit the file directly. The build fills the menu, booking and access sections of `index.html` from it; a session without a name, a non-whole-number price/duration or a non-`https://` link fails the build (and the deploy). An empty English field shows the Japanese text.
@@ -106,11 +112,13 @@ Free Google accounts take bookings and send confirmation emails; taking payment 
 | `styles.css` | Shared styles, light theme, Japanese typography |
 | `scripts/blog.js`, `posts/` | Blog generator (Markdown → static HTML at build time) and the posts |
 | `scripts/salon.js`, `content/salon.yml` | Menu, booking and access details → `index.html` at build time |
+| `scripts/home.js`, `content/home.yml` | Page text → every page at build time and to `i18n.js` (`virtual:home-strings`) |
+| `scripts/content.js` | Shared validation and formatting for `content/` |
 | `booking.js` | Opens Google's booking page in a panel on wider screens |
 | `worker/` | Cloudflare Worker: editor sign-in and GitHub API gateway (`wrangler.toml`, tests) |
 | `REQUIREMENTS.md` | Engineering rules and the editor sign-in requirements |
 | `public/admin/` | Site editor for the blog and salon info ([Sveltia CMS](https://sveltiacms.app/), MIT) and its config |
-| `i18n.js` | EN/JA strings and the language toggle (`?lang=ja`, saved choice, or browser language) |
+| `i18n.js` | EN/JA interface strings, merged with the page text, and the language toggle (`?lang=ja`, saved choice, or browser language) |
 | `entry.js` | Loads the scene only when WebGPU is available |
 | `main.js` | Shared stage: renderer, theme, orb, breathing, scroll, pointer |
 | `tubes.js`, `dust.js` | The two visuals: lit GPU tubes, or compute-shader particles |

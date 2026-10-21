@@ -112,7 +112,7 @@ function page({ title, titleAttrs, desc, descAttrs, body }) {
     <main>
 ${body}
     </main>
-    <footer class="footer" data-i18n-html="blog.footer">HAKU is a fictional salon for a design prototype</footer>
+    <footer class="footer" data-i18n-html="blog.footer"></footer>
     <script type="module" src="/i18n.js"></script>
   </body>
 </html>
@@ -156,13 +156,14 @@ ${perLang(post, (p, lang) => `            <p class="eyebrow">${fmtDate(p.date, l
         </li>`).join("\n")
     : `        <li class="note" data-i18n="blog.empty">No posts yet.</li>`;
   return page({
-    title: "Journal — HAKU",
+    // Text for blog.* keys comes from content/home.yml (scripts/home.js) at build time.
+    title: "",
     titleAttrs: `data-i18n="blog.title"`,
-    desc: "Notes from HAKU, an energy healing salon in Kamakura.",
+    desc: "",
     descAttrs: `data-i18n-content="blog.desc"`,
     body: `      <section class="section blog-index">
-        <p class="eyebrow" data-i18n="blog.eyebrow">Journal</p>
-        <h1 data-i18n-html="blog.h1">Notes on rest<br /><em>and light.</em></h1>
+        <p class="eyebrow" data-i18n="blog.eyebrow"></p>
+        <h1 data-i18n-html="blog.h1"></h1>
         <ul class="post-list">
 ${list}
         </ul>

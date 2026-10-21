@@ -3,23 +3,13 @@
 // The layout matches the CMS in public/admin/config.yml (サロン情報 / Salon info).
 import fs from "node:fs";
 import path from "node:path";
-import { parse as parseYaml } from "yaml";
 import { esc } from "./blog.js";
+import { el, parseFile, str, text as textIn } from "./content.js";
 
 export const FILE = path.resolve(import.meta.dirname, "..", "content", "salon.yml");
 const NAME = "content/salon.yml";
 
-const str = (v) => (v == null ? "" : String(v).trim());
-
-// { ja, en }; a missing translation falls back to the other one.
-function text(v, where, optional = false) {
-  const ja = str(v?.ja), en = str(v?.en);
-  if (!ja && !en) {
-    if (optional) return null;
-    throw new Error(`${NAME}: ${where} needs Japanese or English text`);
-  }
-  return { ja: ja || en, en: en || ja };
-}
+const text = (v, where, optional) => textIn(v, where, NAME, optional);
 
 function int(v, where, min) {
   if (!Number.isInteger(v) || v < min) throw new Error(`${NAME}: ${where} must be a whole number ≥ ${min}, got "${v ?? ""}"`);
@@ -36,12 +26,7 @@ function url(v, where) {
 }
 
 export function parseSalon(src) {
-  let data;
-  try {
-    data = parseYaml(src) ?? {};
-  } catch (err) {
-    throw new Error(`${NAME}: invalid YAML: ${err.message}`);
-  }
+  const data = parseFile(src, NAME);
   if (!Array.isArray(data.sessions) || !data.sessions.length) throw new Error(`${NAME}: add at least one session`);
   return {
     sessions: data.sessions.map((s, i) => {
@@ -75,9 +60,6 @@ export function embedUrl(link) {
   u.searchParams.set("gv", "true");
   return u.href;
 }
-
-// English text inline (the HTML default); i18n.js swaps in data-text-<lang>.
-const el = (tag, cls, t) => `<${tag}${cls ? ` class="${cls}"` : ""} data-text-en="${esc(t.en)}" data-text-ja="${esc(t.ja)}">${esc(t.en)}</${tag}>`;
 
 // Link attributes for a session's booking page, or null while it has none.
 function bookAttrs(s) {
