@@ -1,15 +1,13 @@
-# Salon details for index.html (menu, booking, access). Edit at /admin/ →
-# サロン情報 / Salon info. Layout must match scripts/salon.js and public/admin/config.yml.
 sessions:
   - name:
       ja: レイキヒーリング
-      en: Reiki healing
+      en: Reiki healing.
     minutes: 60
     price: 9800
     description:
       ja: やさしく手を当てるエネルギーワーク。緊張をほどき、穏やかな状態へ。
       en: Gentle hands-on energy work to release tension and help you feel calm.
-    booking_url: ""
+    booking_url: ''
   - name:
       ja: クリスタルライトセッション
       en: Crystal light session
@@ -18,7 +16,7 @@ sessions:
     description:
       ja: 身体のまわりにクリスタルを配置し、レイキと呼吸ガイドを組み合わせて。
       en: Crystals placed around the body, combined with Reiki and guided breathing.
-    booking_url: ""
+    booking_url: ''
   - name:
       ja: サウンド＆ブレス
       en: Sound & breath
@@ -27,10 +25,10 @@ sessions:
     description:
       ja: シンギングボウルとゆっくりした呼吸。ヒーリングがはじめての方にもおすすめです。
       en: Singing bowls and slow breathing. A good first step if you are new to healing.
-    booking_url: ""
+    booking_url: ''
 menu_note:
   ja: 初回限定：全セッション2,000円引き。価格はすべて税込です。
-  en: "First visit: ¥2,000 off any session. All prices include tax."
+  en: 'First visit: ¥2,000 off any session. All prices include tax.'
 info:
   - label:
       ja: 住所
