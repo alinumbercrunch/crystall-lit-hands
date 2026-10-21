@@ -6,7 +6,7 @@ Experimental landing pages built around one WebGL/WebGPU scene: ~1,500 lit GPU t
 
 | Page | |
 | --- | --- |
-| [`/`](https://ayakahaku.com/) | **HAKU** — a fictional energy healing salon (white-light theme, particle merkaba) |
+| [`/`](https://ayakahaku.com/) | **HAKU** — energy healing salon in Kamakura (white-light theme, particle merkaba) |
 | [`/light.html`](https://ayakahaku.com/light.html) | **LUMEN** — meditation page (white-light theme) |
 | [`/blog/`](https://ayakahaku.com/blog/) | **HAKU Journal** — bilingual blog, generated from Markdown |
 | [`/crystall.html`](https://ayakahaku.com/crystall.html) | **CRYSTALL** — the original dark version |
