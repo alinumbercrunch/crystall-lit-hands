@@ -1,0 +1,64 @@
+# Salon details for index.html (menu, booking, access). Edit at /admin/ →
+# サロン情報 / Salon info. Layout must match scripts/salon.js and public/admin/config.yml.
+sessions:
+  - name:
+      ja: レイキヒーリング
+      en: Reiki healing
+    minutes: 60
+    price: 9800
+    description:
+      ja: やさしく手を当てるエネルギーワーク。緊張をほどき、穏やかな状態へ。
+      en: Gentle hands-on energy work to release tension and help you feel calm.
+    booking_url: ""
+  - name:
+      ja: クリスタルライトセッション
+      en: Crystal light session
+    minutes: 90
+    price: 14000
+    description:
+      ja: 身体のまわりにクリスタルを配置し、レイキと呼吸ガイドを組み合わせて。
+      en: Crystals placed around the body, combined with Reiki and guided breathing.
+    booking_url: ""
+  - name:
+      ja: サウンド＆ブレス
+      en: Sound & breath
+    minutes: 45
+    price: 7500
+    description:
+      ja: シンギングボウルとゆっくりした呼吸。ヒーリングがはじめての方にもおすすめです。
+      en: Singing bowls and slow breathing. A good first step if you are new to healing.
+    booking_url: ""
+menu_note:
+  ja: 初回限定：全セッション2,000円引き。価格はすべて税込です。
+  en: "First visit: ¥2,000 off any session. All prices include tax."
+info:
+  - label:
+      ja: 住所
+      en: Address
+    value:
+      ja: 神奈川県鎌倉市（サンプル住所）
+      en: Kamakura, Kanagawa (sample address)
+  - label:
+      ja: 最寄り駅
+      en: Station
+    value:
+      ja: 鎌倉駅より徒歩8分
+      en: 8 min walk from Kamakura Station
+  - label:
+      ja: 営業時間
+      en: Hours
+    value:
+      ja: 10:00〜18:00・火曜定休
+      en: 10:00–18:00 · Closed Tuesdays
+  - label:
+      ja: ご予約
+      en: Booking
+    value:
+      ja: 完全予約制・オンラインで60日先まで
+      en: Reservation only · online, up to 60 days ahead
+booking_note:
+  ja: お支払いは当日サロンにて。ご来店の24時間前までキャンセル無料です。
+  en: Payment at the salon. Free cancellation up to 24 hours before your visit.
+privacy_note:
+  ja: ご予約はGoogleカレンダーで受け付けています。いただいた情報はご予約の管理にのみ使用します。
+  en: Bookings are handled by Google Calendar. Your details are only used to manage your visit.

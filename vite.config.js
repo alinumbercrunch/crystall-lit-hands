@@ -1,5 +1,6 @@
 import path from "node:path";
 import { buildBlog } from "./scripts/blog.js";
+import { FILE as SALON_FILE, loadSalon, renderSalon } from "./scripts/salon.js";
 
 const PAGES = ["index.html", "crystall.html", "light.html"];
 const POSTS_DIR = path.resolve(import.meta.dirname, "posts") + path.sep;
@@ -22,6 +23,20 @@ export default {
             server.config.logger.error(`[blog] ${err.message}`);
           }
         });
+      },
+    },
+    {
+      // Fill index.html's <!-- salon:… --> markers from content/salon.yml.
+      name: "salon",
+      configureServer(server) {
+        server.watcher.add(SALON_FILE);
+        server.watcher.on("all", (_event, file) => {
+          if (path.resolve(file) === SALON_FILE) server.ws.send({ type: "full-reload" });
+        });
+      },
+      transformIndexHtml: {
+        order: "pre",
+        handler: (html) => (html.includes("<!-- salon:") ? renderSalon(html, loadSalon()) : html),
       },
     },
   ],

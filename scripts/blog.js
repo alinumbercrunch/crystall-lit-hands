@@ -12,7 +12,7 @@ const OUT = path.join(ROOT, "blog");
 const LANGS = ["en", "ja"];
 const REQUIRED = ["title", "date", "description"];
 
-const esc = (s) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+export const esc = (s) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 
 // YAML front matter between --- fences (the CMS may quote or fold long values).
 export function parseFrontMatter(src, file = "post") {

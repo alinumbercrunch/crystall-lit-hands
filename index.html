@@ -49,23 +49,9 @@
         <p class="eyebrow" data-i18n="s.menu.eyebrow">Menu</p>
         <h2 data-i18n-html="s.menu.h2">Choose<br /><em>your session.</em></h2>
         <ul class="menu">
-          <li>
-            <h3 data-i18n="s.m1.h">Reiki healing</h3>
-            <span class="menu-meta" data-i18n="s.m1.meta">60 min · ¥9,800</span>
-            <p data-i18n="s.m1.p">Gentle hands-on energy work to release tension and help you feel calm.</p>
-          </li>
-          <li>
-            <h3 data-i18n="s.m2.h">Crystal light session</h3>
-            <span class="menu-meta" data-i18n="s.m2.meta">90 min · ¥14,000</span>
-            <p data-i18n="s.m2.p">Crystals placed around the body, combined with Reiki and guided breathing.</p>
-          </li>
-          <li>
-            <h3 data-i18n="s.m3.h">Sound &amp; breath</h3>
-            <span class="menu-meta" data-i18n="s.m3.meta">45 min · ¥7,500</span>
-            <p data-i18n="s.m3.p">Singing bowls and slow breathing. A good first step if you are new to healing.</p>
-          </li>
+<!-- salon:menu -->
         </ul>
-        <p class="note" data-i18n="s.menu.note">First visit: ¥2,000 off any session. All prices include tax.</p>
+        <!-- salon:menu-note -->
       </section>
 
       <section id="visit" class="section">
@@ -112,23 +98,36 @@
           <h2 data-i18n-html="s.access.h2">Visit<br /><em>HAKU.</em></h2>
         </div>
         <dl class="info">
-          <dt data-i18n="s.i.addr">Address</dt><dd data-i18n="s.i.addr.v">Kamakura, Kanagawa (sample address)</dd>
-          <dt data-i18n="s.i.station">Station</dt><dd data-i18n="s.i.station.v">8 min walk from Kamakura Station</dd>
-          <dt data-i18n="s.i.hours">Hours</dt><dd data-i18n="s.i.hours.v">10:00–18:00 · Closed Tuesdays</dd>
-          <dt data-i18n="s.i.booking">Booking</dt><dd data-i18n="s.i.booking.v">Reservation only</dd>
+<!-- salon:info -->
         </dl>
       </section>
 
       <section id="book" class="section section--cta">
         <blockquote data-i18n-html="s.quote">“Rest is not a reward.<br />It is where you begin.”</blockquote>
-        <a class="btn btn--solid" href="#top" data-orb><span data-i18n="s.cta">Book a session</span> <span aria-hidden="true">→</span></a>
-        <p class="note" data-i18n="s.book.note">Prototype — booking is not connected.</p>
+        <p class="eyebrow" data-i18n="s.cta">Book a session</p>
+        <ul class="book-list">
+<!-- salon:booking -->
+        </ul>
+        <div class="book-notes">
+          <!-- salon:booking-notes -->
+        </div>
       </section>
     </main>
+
+    <!-- Desktop: Google's booking page in a panel (booking.js). Phones open it in a new tab. -->
+    <dialog class="booking" data-booking aria-labelledby="booking-title">
+      <div class="booking-head">
+        <h2 id="booking-title" class="booking-title"></h2>
+        <a class="booking-link" target="_blank" rel="noopener" data-booking-tab data-i18n="s.book.newTab">Open in new tab ↗</a>
+        <button class="lang-toggle" type="button" data-booking-close data-i18n="s.book.close">Close</button>
+      </div>
+      <iframe title="Booking calendar" data-booking-frame></iframe>
+    </dialog>
 
     <footer class="footer" data-i18n-html="s.footer">HAKU is a fictional salon for a design prototype · <a href="./light.html">LUMEN</a> · <a href="./crystall.html">CRYSTALL</a></footer>
 
     <script type="module" src="/i18n.js"></script>
     <script type="module" src="/entry.js"></script>
+    <script type="module" src="/booking.js"></script>
   </body>
 </html>
