@@ -12,5 +12,5 @@ SITE_ORIGIN = "https://ayakahaku.com"
 REPO = "alinumbercrunch/crystall-lit-hands"
 # From Zero Trust → Settings (team domain, e.g. haku.cloudflareaccess.com) and the
 # Access application (AUD tag). The Worker answers 503 until both are set.
-TEAM_DOMAIN = ""
-ACCESS_AUD = ""
+TEAM_DOMAIN = "patient-limit-fcbd.cloudflareaccess.com"
+ACCESS_AUD = "f59e2269aa0e3744ba3ea26f47c51540ed3e11b3e34ebb665d4a2d56d356d35f"
