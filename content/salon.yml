@@ -1,53 +1,86 @@
 sessions:
   - name:
-      ja: レイキヒーリング
-      en: Reiki healing
-    minutes: 60
-    price: 9800
+      ja: 遠隔クリスタルエネルギーワーク
+      en: Remote Crystal Energy Work
+    minutes: 20
+    price: 28000
     description:
-      ja: やさしく手を当てるエネルギーワーク。緊張をほどき、穏やかな状態へ。
-      en: Gentle hands-on energy work to release tension and help you feel calm.
+      ja: |-
+        透きとおる結晶（クリスタル）のように、純度の高いあなた特有の振動（固有振動数）にアプローチするオーダーメイドエネルギーワーク
+        ＋テキストメッセージにて見えたビジョンや感じたことをお伝えします💎
+
+        ・身体やオーラ体に溜まったノイズ（余分な情報・感情）をクリアにろ過
+        ・クリスタルのような透明度へ
+      en: |-
+        A bespoke energy-healing session designed to resonate with your unique, high-purity vibration—much like a clear, crystalline structure.
+        + You will receive a text message detailing the visions perceived and insights felt during the session. 💎
+
+        ・Clears away the "noise" (excess information and emotions) accumulated within your physical body and aura.
+        ・Restores a state of crystalline clarity
     booking_url: https://calendar.google.com/calendar/appointments/schedules/AcZssZ2PR8xK9N52UH2CqyWcJDG9ObOAFayMITk9GUgpOVKn_qGsBizIjGyUhL9VEst-cQ-_k-ft7dLU
   - name:
-      ja: クリスタルライトセッション
-      en: Crystal light session
-    minutes: 90
-    price: 14000
+      ja: 遠隔DNAアクティベーション
+      en: Remote DNA Activation
+    minutes: 10
+    price: 28000
     description:
-      ja: 身体のまわりにクリスタルを配置し、レイキと呼吸ガイドを組み合わせて。
-      en: Crystals placed around the body, combined with Reiki and guided breathing.
-    booking_url: 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ2PR8xK9N52UH2CqyWcJDG9ObOAFayMITk9GUgpOVKn_qGsBizIjGyUhL9VEst-cQ-_k-ft7dLU'
+      ja: |-
+        下記の１テーマごとの金額になります
+        (２テーマ以上は２テーマ以降16,000円)
+
+        1.情熱を活性化したい方
+        2.精神的豊かさ、物質的豊かさを定着させたい方
+        3.生きる喜びを感じたい方
+        4.奇跡の日常を体感したい方
+        5.うちなる情報をダウンロードしたい方
+      en: |-
+        The prices below are per theme.
+        (For two or more themes, the cost for each additional theme is 16,000 yen.)
+
+        1.Those who wish to ignite their passion
+        2.Those who wish to anchor both spiritual and material abundance in their lives
+        3.Those who wish to experience the joy of living
+        4.Those who wish to live a life filled with everyday miracles
+        5.Those who wish to access and download the wisdom from within
+    booking_url: https://calendar.google.com/calendar/appointments/schedules/AcZssZ2PR8xK9N52UH2CqyWcJDG9ObOAFayMITk9GUgpOVKn_qGsBizIjGyUhL9VEst-cQ-_k-ft7dLU
   - name:
-      ja: サウンド＆ブレス
-      en: Sound & breath
-    minutes: 45
-    price: 7500
+      ja: Session
+      en: Session
+    minutes: 60
+    price: 28000
     description:
-      ja: シンギングボウルとゆっくりした呼吸。ヒーリングがはじめての方にもおすすめです。
-      en: Singing bowls and slow breathing. A good first step if you are new to healing.
-    booking_url: 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ2PR8xK9N52UH2CqyWcJDG9ObOAFayMITk9GUgpOVKn_qGsBizIjGyUhL9VEst-cQ-_k-ft7dLU'
+      ja: |-
+        じぶんが世界に合わせるのではなく
+        世界がじぶんに合わせてくる
+        純粋な”響き”で生きる
+
+        ”ただ在る”ことでつながる
+        じぶんの絶対安心領域、体感を
+
+
+        お話ししたいだけの方も
+        大歓迎です
+      en: |-
+        Rather than conforming yourself to the world,
+        let the world align with you—
+        by living in a state of pure "resonance."
+
+        Connect simply by "just being"—
+        discover your own space of absolute inner peace and the physical sensation of it.
+
+        If you’d just like to have a chat,
+        you are more than welcome!
+    booking_url: https://calendar.google.com/calendar/appointments/schedules/AcZssZ2PR8xK9N52UH2CqyWcJDG9ObOAFayMITk9GUgpOVKn_qGsBizIjGyUhL9VEst-cQ-_k-ft7dLU
 menu_note:
-  ja: 初回限定：全セッション2,000円引き。価格はすべて税込です。
-  en: 'First visit: ¥2,000 off any session. All prices include tax.'
+  ja: 価格はすべて税込です
+  en: All prices include tax.
 info:
   - label:
       ja: 住所
       en: Address
     value:
-      ja: 神奈川県鎌倉市
-      en: Kamakura, Kanagawa
-  - label:
-      ja: 最寄り駅
-      en: Station
-    value:
-      ja: 鎌倉駅より徒歩8分
-      en: 8 min walk from Kamakura Station
-  - label:
-      ja: 営業時間
-      en: Hours
-    value:
-      ja: 10:00〜18:00・火曜定休
-      en: 10:00–18:00 · Closed Tuesdays
+      ja: 神奈川県藤沢市
+      en: Fuzisawa, Kanagawa
   - label:
       ja: ご予約
       en: Booking
@@ -55,8 +88,12 @@ info:
       ja: 完全予約制・オンラインで60日先まで
       en: Reservation only · online, up to 60 days ahead
 booking_note:
-  ja: お支払いは当日サロンにて。ご来店の24時間前までキャンセル無料です。
-  en: Payment at the salon. Free cancellation up to 24 hours before your visit.
+  ja: |-
+    お支払いは事前お振り込み
+    またはクレジット決済（5%手数料がかかります）
+  en: |-
+    Payment can be made via advance bank transfer 
+    or credit card (a 5% processing fee applies).
 privacy_note:
   ja: ご予約はGoogleカレンダーで受け付けています。いただいた情報はご予約の管理にのみ使用します。
   en: Bookings are handled by Google Calendar. Your details are only used to manage your visit.
