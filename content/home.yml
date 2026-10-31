@@ -1,14 +1,16 @@
 page:
   title:
-    ja: HAKU — 鎌倉のエネルギーヒーリングサロン
-    en: HAKU — Energy healing salon in Kamakura
+    ja: HAKU — 個別セッション・エネルギーワーク
+    en: HAKU — Individual session & Energy work
   description:
-    ja: HAKU — 鎌倉の完全予約制エネルギーヒーリングサロン。レイキ、クリスタル、サウンドのセッション。
-    en: HAKU — a private energy healing salon in Kamakura. Reiki, crystal light and sound sessions.
+    ja: HAKU — 個別セッションとエネルギーワークのご提供
+    en: |-
+      HAKU — 
+      Offering individual sessions and energy work
 hero:
   eyebrow:
-    ja: エネルギーヒーリングサロン・鎌倉
-    en: Energy healing salon · Kamakura
+    ja: エネルギーワーク
+    en: Energy work
   heading:
     ja: |-
       あなた本来の
@@ -38,7 +40,7 @@ about:
       *One guest at a time.*
   body:
     ja: HAKUは「白」。すべての色に分かれる前の、光の色です。セッションは完全予約制のプライベート空間で、時間を気にせずゆっくりと。お茶とカウンセリングから始まり、あとは横になって、ただ休むだけ。
-    en: "HAKU means “white” — the colour of light before it splits into all the others. Sessions are fully private and unhurried: we begin with tea and a conversation, then you simply lie down and rest."
+    en: 'HAKU means “white” — the colour of light before it splits into all the others. Sessions are fully private and unhurried: we begin with tea and a conversation, then you simply lie down and rest.'
 menu:
   eyebrow:
     ja: メニュー
